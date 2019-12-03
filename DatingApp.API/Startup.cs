@@ -31,6 +31,8 @@ namespace DatingApp.API
             (Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddCors(); // agregar e origen de datos quien puede consumir el APi
+            // agregar la autenticacion
+            services.AddScoped<IAuthRepository,AuthRepository>();
 
         }
 
