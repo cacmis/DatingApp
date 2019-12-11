@@ -44,6 +44,7 @@ namespace DatingApp.API
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
             services.AddCors(); // agregar e origen de datos quien puede consumir el APi
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper(typeof(DatingRepository).Assembly );
             // agregar la autenticacion
             services.AddScoped<IAuthRepository,AuthRepository>();
