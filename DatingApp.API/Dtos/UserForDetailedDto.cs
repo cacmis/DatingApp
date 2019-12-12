@@ -4,9 +4,9 @@ using DatingApp.API.Models;
 
 namespace DatingApp.API.Dtos
 {
-    public class UserFirDetailedDto
+    public class UserForDetailedDto
     {
-                public int Id { get; set; }
+        public int Id { get; set; }
         public string UserName  { get; set; }
         public string Gender { get; set; }  
         public int Age { get; set; } 
