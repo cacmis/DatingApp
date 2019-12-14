@@ -3,7 +3,7 @@ import { User } from '../../_models/user';
 import { UserService } from '../../_services/user.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
-import { Pagination, PaginationResult } from 'src/app/_models/pagination';
+import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
 
 @Component({
   selector: 'app-member-list',
@@ -49,7 +49,7 @@ export class MemberListComponent implements OnInit {
 
   loadUsers() {
     this.userService.getUsers(this.pagination.currentPage, this.pagination.itemsPerPage, this.userParams)
-      .subscribe((res: PaginationResult< User[]>) => {
+      .subscribe((res: PaginatedResult< User[]>) => {
       this.users = res.result;
       this.pagination = res.pagination;
     }, error => {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../_models/user';
-import { Pagination, PaginationResult } from '../_models/pagination';
+import { Pagination, PaginatedResult } from '../_models/pagination';
 import { AuthService } from '../_services/auth.service';
 import { UserService } from '../_services/user.service';
 import { ActivatedRoute } from '@angular/router';
@@ -32,7 +32,7 @@ likesParam: string;
 
   loadUsers() {
     this.userService.getUsers(this.pagination.currentPage, this.pagination.itemsPerPage, null, this.likesParam)
-      .subscribe((res: PaginationResult< User[]>) => {
+      .subscribe((res: PaginatedResult< User[]>) => {
       this.users = res.result;
       this.pagination = res.pagination;
     }, error => {
