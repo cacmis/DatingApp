@@ -32,11 +32,33 @@ namespace DatingApp.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+             services.AddDbContext<DataContext>(x=> {
+                 x.UseLazyLoadingProxies();
+                 x.UseSqlite (Configuration.GetConnectionString("DefaultConnection"));
+             } );
+
+            ConfigureServices(services);
+        }
+
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+             services.AddDbContext<DataContext>(x=> {
+                 x.UseLazyLoadingProxies();
+                 x.UseMySql (Configuration.GetConnectionString("DefaultConnection"));
+             } );
+
+            ConfigureServices(services);
+        }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x=> x.UseSqlite
-            (Configuration.GetConnectionString("DefaultConnection")));
+            // SQLite "DefaultConnection":"Data Source = Datingapp.db"
+            // Sql Server "DefaultConnection":"Server = localhost; Database=Datingapp; User Id=appuser; Password=password"
+            // MySql "DefaultConnection":"Server = localhost; Database=Datingapp; Uid=appuser; Pwd=password"
+
+            // services.AddDbContext<DataContext>(x=> x.UseSqlite
+            // (Configuration.GetConnectionString("DefaultConnection")));
             // se agrega el controlador ara que regrse el Json
             services.AddControllers().AddNewtonsoftJson(opt => 
             {
@@ -88,14 +110,20 @@ namespace DatingApp.API
 
             //app.UseHttpsRedirection();
             app.UseRouting();
-            // siguente linea es para permitir que consuma cualuier cliente
-            app.UseCors(x=> x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // siguente linea es para permitir que consuma cualuier cliente
+            app.UseCors(x=> x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index","Fallback");
             });
             
         }

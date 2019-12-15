@@ -3,4 +3,4 @@ bin
 obj
 *.bd
 appsettings.json
-
+wwwroot
